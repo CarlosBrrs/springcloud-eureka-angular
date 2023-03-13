@@ -1,0 +1,38 @@
+##Configuracion PostgreSQL
+spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/db_microservicios_examenes
+#    username: postgres
+#    password: admin
+#  #Creacion (validacion de existencia cuando no es la primera vez) de tablas de forma automatica basado en las anotacion JPA
+#  jpa:
+#    generate-ddl: true
+  #Application name
+  application:
+    name: microservicio-respuestas
+    #Conexion MongoDB
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/db_microservicios_respuestas
+  cloud:
+    gateway:
+      loadbalancer:
+        ribbon:
+          enable: false
+
+##Mostrar consultas nativas SQL en el log
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: debug
+#Puerto para cliente Eureka
+server:
+  port: ${PORT:0}
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+

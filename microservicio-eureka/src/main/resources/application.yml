@@ -1,0 +1,12 @@
+#Eureka config
+spring:
+  application:
+    name: microservicio-eureka-server
+#Port config
+server:
+  port: 8761 #Por defecto de Eureka
+#Deshabilitar Eureka como cliente de si mismo
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false

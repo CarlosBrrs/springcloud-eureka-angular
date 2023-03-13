@@ -1,0 +1,73 @@
+#Application name
+spring:
+  application:
+    name: microservicio-gateway
+  #Enrutar microservicios
+  cloud:
+    gateway:
+      routes[0]:
+        id: microservicio-usuario
+        uri: lb://microservicio-usuario
+        predicates: Path=/api/v1/usuarios/**
+        filters: StripPrefix=3
+
+      routes[1]:
+        id: microservicio-curso
+        uri: lb://microservicio-curso
+        predicates: Path=/api/v1/cursos/**
+        filters: StripPrefix=3
+
+      routes[2]:
+        id: microservicio-examenes
+        uri: lb://microservicio-examenes
+        predicates: Path=/api/v1/examenes/**
+        filters: StripPrefix=3
+
+      routes[3]:
+        id: microservicio-respuestas
+        uri: lb://microservicio-respuestas
+        predicates: Path=/api/v1/respuestas/**
+        filters: StripPrefix=3
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: ['http://localhost:4200']
+            allowedMethods: ['GET', 'POST', 'PUT', 'DELETE']
+            allowedHeaders: ['Content-Type']
+    loadbalancer:
+      ribbon:
+        enable: false
+
+
+#Puerto para cliente Eureka
+server:
+  port: 8090
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+###Enrutar microservicio usuarios a este Gateway
+##zuul:
+##  routes:
+##    usuarios: #El micro relacionado, puede ser un nombre cualquiera
+##      service-id: microservicio-usuario
+##      path: /api/v1/usuarios/** #Ruta base mas ruta del microservicio
+##
+###Enrutar microservicio cursos a este Gateway
+##    cursos: #El micro relacionado, puede ser un nombre cualquiera
+##      service-id: microservicio-curso
+##      path: /api/v1/cursos/** #Ruta base mas ruta del microservicio
+##
+###Enrutar microservicio examenes a este Gateway
+##    examenes: #El micro relacionado, puede ser un nombre cualquiera
+##      service-id: microservicio-examenes
+##      path: /api/v1/examenes/** #Ruta base mas ruta del microservicio
+##
+###Enrutar microservicio respuestas a este Gateway
+##    respuestas: #El micro relacionado, puede ser un nombre cualquiera
+##      service-id: microservicio-respuestas
+##      path: /api/v1/respuestas/** #Ruta base mas ruta del microservicio
